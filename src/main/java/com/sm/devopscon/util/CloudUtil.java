@@ -2,8 +2,6 @@ package com.sm.devopscon.util;
 
 
 import com.microsoft.windowsazure.serviceruntime.RoleEnvironment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +9,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Random;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created by Sascha Möllering
@@ -23,7 +24,7 @@ public final class CloudUtil {
     public static final String REGION = "region";
     public static final String DEFAULT_REGION = "eu-west-1";
     public static final String BUCKET_NAME = "viewtracker";
-    private static final Logger LOGGER = LoggerFactory.getLogger(CloudUtil.class);
+    private static final Logger LOGGER = LogManager.getLogger(CloudUtil.class);
     private static final int TIMEOUT = 50;
     private static final CloudUtil CLOUD_UTIL = new CloudUtil();
     private Boolean isAmazon, isAzure;
@@ -91,10 +92,12 @@ public final class CloudUtil {
                 if (isEmulated) {
                     LOGGER.info("Azure environment is emulated");
                     isAzure = false;
+                } else {
+                    LOGGER.info("Azure environment is not emulated");
                 }
             } catch (Exception exc) {
                 isAzure = false;
-                LOGGER.error(exc.toString(), exc);
+                LOGGER.info("Exception " + exc.getMessage() + " is thrown -> not in Azure");
             }
         }
 

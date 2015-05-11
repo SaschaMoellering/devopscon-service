@@ -1,8 +1,8 @@
 package com.sm.devopscon.properties;
 
 import com.sm.devopscon.util.CloudUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Properties;
 
@@ -14,7 +14,7 @@ import java.util.Properties;
  */
 public final class ServerProperties extends PropertyResolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServerProperties.class);
+    private static final Logger LOGGER = LogManager.getLogger(ServerProperties.class);
 
     private static final String KAFKA_BROKER_LIST = "kafka.broker.list";
     private static final String KAFKA_TOPIC = "kafka.topic";
@@ -27,6 +27,10 @@ public final class ServerProperties extends PropertyResolver {
     private static final String ELASTICACHE_SERVER_HOST_MASTER = "elasticache.server.host.master";
     private static final String ELASTICACHE_SERVER_HOST_SLAVE = "elasticache.server.host.slave";
     private static final String ELASTICACHE_SERVER_PORT = "elasticache.server.port";
+
+    private static final String AZURECACHE_SERVER_HOST_MASTER = "azurecache.server.host.master";
+    private static final String AZURECACHE_SERVER_HOST_SLAVE = "azurecache.server.host.slave";
+    private static final String AZURECACHE_SERVER_PORT = "azurecache.server.port";
 
     private static final String REDIS_UPDATER_ADDRESS = "redis.updater.address";
 
@@ -47,7 +51,6 @@ public final class ServerProperties extends PropertyResolver {
     private String kafkaTopic;
     private String kafkaPartition;
     private String redisUpdaterAddress;
-    private boolean isWorkingPathEnabled = false;
     private String backupFilePath;
     private boolean useIpResolution = true;     // enable geo-ip resolution: country, subdivision and city
     private int ipTruncationLevel = 0;          // number of ip octets do be truncated; default value: no octets
@@ -72,10 +75,6 @@ public final class ServerProperties extends PropertyResolver {
             stage = "local";
         }
 
-        if (stage.equalsIgnoreCase("staging")) {
-            isWorkingPathEnabled = true;
-        }
-
         // Load a properties file
         Properties prop = getPropertiesFromClasspath("server_" + stage + ".properties");
 
@@ -86,6 +85,11 @@ public final class ServerProperties extends PropertyResolver {
                 redisServerHostSlave = prop.getProperty(ELASTICACHE_SERVER_HOST_SLAVE);
                 redisServerPort = Integer.parseInt(prop.getProperty(ELASTICACHE_SERVER_PORT));
                 instanceId = CloudUtil.getInstance().retrieveInstanceId();
+            } else if (CloudUtil.getInstance().isEnvironmentAzure()) {
+                redisServerHostMaster = prop.getProperty(AZURECACHE_SERVER_HOST_MASTER);
+                redisServerHostSlave = prop.getProperty(AZURECACHE_SERVER_HOST_SLAVE);
+                redisServerPort = Integer.parseInt(prop.getProperty(AZURECACHE_SERVER_PORT));
+                instanceId = CloudUtil.getInstance().createDcInstanceId();
             } else {
                 redisServerHostMaster = prop.getProperty(REDIS_SERVER_HOST_MASTER);
                 redisServerHostSlave = prop.getProperty(REDIS_SERVER_HOST_SLAVE);
@@ -127,10 +131,6 @@ public final class ServerProperties extends PropertyResolver {
      */
     public String getInstanceId() {
         return instanceId;
-    }
-
-    public boolean isWorkingPathEnabled() {
-        return isWorkingPathEnabled;
     }
 
     public String getRedisServerHostMaster() {

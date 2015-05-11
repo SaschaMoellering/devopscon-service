@@ -45,7 +45,7 @@ public class StarterVerticle extends Verticle {
     private JsonObject getServiceBusConfig() {
 
         JsonObject config = new JsonObject();
-        config.putString("address", Constants.MOD_SERVICE_BUS_ADDRESS);
+        config.putString("address", Constants.MESSAGE_BUS);
         config.putString("provider.url", "file:///tmp/servicebus.properties");
 
         return config;
@@ -58,7 +58,7 @@ public class StarterVerticle extends Verticle {
      */
     JsonObject getKafkaModuleConfig(ServerProperties serverProperties) {
         final JsonObject config = new JsonObject();
-        config.putString("address", Constants.TRACKING_BUS);
+        config.putString("address", Constants.MESSAGE_BUS);
         config.putString("metadata.broker.list", serverProperties.getKafkaBrokerList()); // KafkaConstants.BROKER_LIST);
         config.putString("kafka-topic", serverProperties.getKafkaTopic());               // KafkaConstants.TOPIC);
         config.putString("kafka-partition", serverProperties.getKafkaPartition());       // KafkaConstants.PARTITION);
@@ -75,7 +75,7 @@ public class StarterVerticle extends Verticle {
      */
     JsonObject getKinesisModuleConfig() {
         JsonObject config = new JsonObject();
-        config.putString("address", Constants.TRACKING_BUS);
+        config.putString("address", Constants.MESSAGE_BUS);
         config.putString("streamName", Constants.KINESIS_STREAM);
         config.putString("partitionKey", Constants.KINESIS_PARTITION_KEY);
         config.putString("region", CloudUtil.getInstance().getRegion());

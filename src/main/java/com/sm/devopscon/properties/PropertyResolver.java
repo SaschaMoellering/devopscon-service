@@ -1,12 +1,11 @@
 package com.sm.devopscon.properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Responsible for resolving properties file by the given file path.
@@ -15,7 +14,7 @@ import java.util.Properties;
  */
 public abstract class PropertyResolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PropertyResolver.class);
+    private static final Logger LOGGER = LogManager.getLogger(PropertyResolver.class);
 
     /**
      * Resolves the *.properties file from the classpath by the given file name.

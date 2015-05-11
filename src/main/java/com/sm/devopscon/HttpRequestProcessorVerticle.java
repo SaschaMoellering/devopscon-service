@@ -31,7 +31,7 @@ public class HttpRequestProcessorVerticle extends Verticle {
             trackingData.putString("uuid", requestUuid.toString());
             trackingData.putString("payload", "TestString");
 
-            eventBus.send(VerticleNames.MOD_SERVICE_BUS_ADDRESS, trackingData);
+            eventBus.send(Constants.MOD_SERVICE_BUS_ADDRESS, trackingData);
 
             req.response().setStatusCode(200).end();
         }).listen(8080);
