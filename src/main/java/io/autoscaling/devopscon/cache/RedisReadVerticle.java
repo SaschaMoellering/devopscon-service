@@ -1,15 +1,20 @@
 package io.autoscaling.devopscon.cache;
 
 
+import io.autoscaling.devopscon.Constants;
 import io.autoscaling.devopscon.properties.ServerProperties;
+import io.autoscaling.devopscon.util.VerticleNames;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.vertx.java.core.Handler;
 import org.vertx.java.core.eventbus.EventBus;
 import org.vertx.java.core.eventbus.Message;
+import org.vertx.java.core.json.JsonArray;
 import org.vertx.java.core.json.JsonObject;
 import org.vertx.java.platform.Verticle;
 import redis.clients.jedis.Jedis;
+
+import java.util.List;
 
 
 /**
@@ -52,11 +57,9 @@ public class RedisReadVerticle extends Verticle {
         }
     }
 
-    private void readDataFromRedis(JsonObject trackingDataObject) {
-        /*
-        JsonObject storedCacheValues = trackingDataObject.getObject(TrackingConstants.TRACKING_CACHE_KEYS_VALUES);
+    private void readDataFromRedis(JsonObject dataObject) {
 
-        JsonArray keysJson = trackingDataObject.getField(TrackingConstants.TRACKING_KEYS);
+        JsonArray keysJson = dataObject.getField(Constants.REDIS_KEYS);
         List<String> keys = keysJson.toList();
 
         String value;
@@ -64,11 +67,9 @@ public class RedisReadVerticle extends Verticle {
         for (String redisKey : keys) {
 
             value = jedis.get(redisKey);
-            trackingDataObject.putObject(redisKey, storedCacheValues);
+            dataObject.putString(redisKey, value);
         }
 
-        trackingDataObject.putNumber(TrackingConstants.TRACKING_LRU_CACHE_WRITE, 1);
-        eventBus.send(VerticleNames.LRU_CACHE_VERTICLE_NAME, trackingDataObject);
-        */
+        eventBus.send(VerticleNames.HTTP_REQUEST_PROCESSOR_VERTICLE, dataObject);
     }
 }

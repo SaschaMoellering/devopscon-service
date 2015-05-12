@@ -24,8 +24,10 @@ public class StarterVerticle extends Verticle {
         LOGGER.info("Deploying " + HttpRequestProcessorVerticle.class.getName());
         container.deployVerticle(HttpRequestProcessorVerticle.class.getName());
 
+        /*
         LOGGER.info("Deploying " + RedisReadVerticle.class.getName());
         container.deployVerticle(RedisReadVerticle.class.getName());
+        */
 
         Environment environment = CloudUtil.getInstance().getEnvironment();
 

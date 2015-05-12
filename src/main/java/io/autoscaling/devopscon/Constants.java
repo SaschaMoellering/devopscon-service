@@ -22,6 +22,8 @@ public class Constants {
     public static final String MODULE_KAFKA = "com.zanox.vertx~mod-kafka~1.1.1";
     public static final String MODULE_KINESIS = "com.zanox.vertx.mods~mod-kinesis~1.4.13";
 
+    public static final String REDIS_KEYS = "redis.key";
+
     /* Non-instantiable class */
     private Constants() {
     }

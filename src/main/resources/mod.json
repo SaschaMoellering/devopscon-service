@@ -1,6 +1,6 @@
 {
   // Java verticle
-  "main": "com.sm.devopscon.StarterVerticle",
+  "main": "io.autoscaling.devopscon.StarterVerticle",
   "includes": "com.zanox.vertx~mod-kafka~1.1.1,com.zanox.vertx.mods~mod-kinesis~1.4.13,com.sm.vertx~mod-service-bus~1.0.0",
   // In this example we also provide various other versions of the main verticle, you can uncomment this and
   // play around:
