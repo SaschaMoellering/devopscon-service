@@ -1,8 +1,9 @@
-package com.sm.devopscon;
+package io.autoscaling.devopscon;
 
-import com.sm.devopscon.properties.ServerProperties;
-import com.sm.devopscon.util.CloudUtil;
-import com.sm.devopscon.util.Environment;
+import io.autoscaling.devopscon.cache.RedisReadVerticle;
+import io.autoscaling.devopscon.properties.ServerProperties;
+import io.autoscaling.devopscon.util.CloudUtil;
+import io.autoscaling.devopscon.util.Environment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.vertx.java.core.json.JsonObject;
@@ -22,6 +23,9 @@ public class StarterVerticle extends Verticle {
 
         LOGGER.info("Deploying " + HttpRequestProcessorVerticle.class.getName());
         container.deployVerticle(HttpRequestProcessorVerticle.class.getName());
+
+        LOGGER.info("Deploying " + RedisReadVerticle.class.getName());
+        container.deployVerticle(RedisReadVerticle.class.getName());
 
         Environment environment = CloudUtil.getInstance().getEnvironment();
 

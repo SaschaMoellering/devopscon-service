@@ -1,6 +1,6 @@
-package com.sm.devopscon.properties;
+package io.autoscaling.devopscon.properties;
 
-import com.sm.devopscon.util.CloudUtil;
+import io.autoscaling.devopscon.util.CloudUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

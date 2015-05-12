@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.sm.devopscon</groupId>
+    <groupId>io.autoscaling</groupId>
     <artifactId>devopscon-service</artifactId>
     <packaging>jar</packaging>
     <version>0.1</version>
@@ -52,6 +52,7 @@
         <maven.dependency.plugin.version>2.7</maven.dependency.plugin.version>
         <log4j.version>2.0.2</log4j.version>
         <version.slf4j>1.7.7</version.slf4j>
+        <jedis.version>2.6.2</jedis.version>
     </properties>
 
     <repositories>
@@ -118,6 +119,20 @@
             <version>0.6.0</version>
         </dependency>
 
+        <!--Http Connection dependencies-->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.4.1</version>
+        </dependency>
+
+        <!-- Redis client dependencies-->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
+        </dependency>
+
         <!--Test dependencies-->
         <dependency>
             <groupId>junit</groupId>
@@ -169,6 +184,13 @@
                             <goal>pullInDeps</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>makemefat</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>fatJar</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
 
@@ -198,6 +220,30 @@
                             <resources>
                                 <resource>
                                     <directory>target/classes</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copyFilesForDocker</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/docker</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/docker</directory>
+                                    <includes>
+                                        <include>Dockerfile</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/target</directory>
+                                    <includes>
+                                        <include>*-fat.jar</include>
+                                    </includes>
                                 </resource>
                             </resources>
                         </configuration>

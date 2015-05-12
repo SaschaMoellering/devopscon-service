@@ -1,4 +1,4 @@
-package com.sm.devopscon;
+package io.autoscaling.devopscon;
 
 /**
  * Created by sascha.moellering on 11/05/2015.

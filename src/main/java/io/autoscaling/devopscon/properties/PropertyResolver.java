@@ -1,4 +1,4 @@
-package com.sm.devopscon.properties;
+package io.autoscaling.devopscon.properties;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

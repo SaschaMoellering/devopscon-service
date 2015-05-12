@@ -1,4 +1,4 @@
-package com.sm.devopscon.util;
+package io.autoscaling.devopscon.util;
 
 
 import com.microsoft.windowsazure.serviceruntime.RoleEnvironment;
