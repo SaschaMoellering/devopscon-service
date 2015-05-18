@@ -28,8 +28,6 @@ public class RedisReadVerticle extends Verticle {
     private EventBus eventBus;
     private Jedis jedis;
 
-    private HttpClient client = HttpClientBuilder.create().build();
-
     /**
      * In this start method we set up the jedis connection.
      */
@@ -53,12 +51,14 @@ public class RedisReadVerticle extends Verticle {
             if (!jedis.isConnected()) {
                 jedis.connect();
             }
-            readDataFromRedis(event.body());
+
+            readDataFromRedis(event);
         }
     }
 
-    private void readDataFromRedis(JsonObject dataObject) {
+    private void readDataFromRedis(Message<JsonObject> event) {
 
+        JsonObject dataObject = event.body();
         JsonArray keysJson = dataObject.getField(Constants.REDIS_KEYS);
         List<String> keys = keysJson.toList();
 
@@ -70,6 +70,6 @@ public class RedisReadVerticle extends Verticle {
             dataObject.putString(redisKey, value);
         }
 
-        eventBus.send(VerticleNames.HTTP_REQUEST_PROCESSOR_VERTICLE, dataObject);
+        event.reply(dataObject);
     }
 }

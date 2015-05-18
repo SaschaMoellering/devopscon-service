@@ -13,7 +13,7 @@ public class Constants {
 
     public static final String PAYLOAD = "payload";
 
-    public static final String KINESIS_STREAM = "kinesisTrackingStream";
+    public static final String KINESIS_STREAM = "devopsconStream";
     public static final String KINESIS_PARTITION_KEY = "partitionkey";
     public static final String MOD_SERVICE_BUS_ADDRESS = "service.bus.azure";
     public static final String MODULE_SERVICE_BUS = "com.sm.vertx~mod-service-bus~1.0.0";

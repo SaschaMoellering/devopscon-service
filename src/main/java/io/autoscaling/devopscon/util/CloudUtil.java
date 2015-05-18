@@ -87,6 +87,7 @@ public final class CloudUtil {
             isAzure = true;
 
             try {
+                RoleEnvironment.getRoles();
                 boolean isEmulated = RoleEnvironment.isEmulated();
 
                 if (isEmulated) {

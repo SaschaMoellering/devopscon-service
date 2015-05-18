@@ -24,10 +24,8 @@ public class StarterVerticle extends Verticle {
         LOGGER.info("Deploying " + HttpRequestProcessorVerticle.class.getName());
         container.deployVerticle(HttpRequestProcessorVerticle.class.getName());
 
-        /*
         LOGGER.info("Deploying " + RedisReadVerticle.class.getName());
         container.deployVerticle(RedisReadVerticle.class.getName());
-        */
 
         Environment environment = CloudUtil.getInstance().getEnvironment();
 
@@ -52,7 +50,7 @@ public class StarterVerticle extends Verticle {
 
         JsonObject config = new JsonObject();
         config.putString("address", Constants.MESSAGE_BUS);
-        config.putString("provider.url", "file:///tmp/servicebus.properties");
+        config.putString("provider.url", System.getenv("PROVIDER_URL"));
 
         return config;
     }
