@@ -4,6 +4,7 @@ package io.autoscaling.devopscon.util;
 import com.microsoft.windowsazure.serviceruntime.RoleEnvironment;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -87,16 +88,14 @@ public final class CloudUtil {
             isAzure = true;
 
             try {
-                RoleEnvironment.getRoles();
-                boolean isEmulated = RoleEnvironment.isEmulated();
 
-                if (isEmulated) {
-                    LOGGER.info("Azure environment is emulated");
+                File file = new File("/etc/waagent.conf");
+                LOGGER.info("Checking for " + file.getAbsolutePath());
+                if (!file.exists()) {
                     isAzure = false;
-                } else {
-                    LOGGER.info("Azure environment is not emulated");
                 }
             } catch (Exception exc) {
+                exc.printStackTrace();
                 isAzure = false;
                 LOGGER.info("Exception " + exc.getMessage() + " is thrown -> not in Azure");
             }

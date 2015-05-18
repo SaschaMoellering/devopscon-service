@@ -31,6 +31,7 @@ public final class ServerProperties extends PropertyResolver {
     private static final String AZURECACHE_SERVER_HOST_MASTER = "azurecache.server.host.master";
     private static final String AZURECACHE_SERVER_HOST_SLAVE = "azurecache.server.host.slave";
     private static final String AZURECACHE_SERVER_PORT = "azurecache.server.port";
+    private static final String AZURECACHE_SERVER_PASSWORD = "azurecache.server.password";
 
     private static final String REDIS_UPDATER_ADDRESS = "redis.updater.address";
 
@@ -47,6 +48,7 @@ public final class ServerProperties extends PropertyResolver {
     private String redisServerHostMaster;
     private String redisServerHostSlave;
     private Integer redisServerPort;
+    private String redisPassword;
     private String kafkaBrokerList;
     private String kafkaTopic;
     private String kafkaPartition;
@@ -89,6 +91,7 @@ public final class ServerProperties extends PropertyResolver {
                 redisServerHostMaster = prop.getProperty(AZURECACHE_SERVER_HOST_MASTER);
                 redisServerHostSlave = prop.getProperty(AZURECACHE_SERVER_HOST_SLAVE);
                 redisServerPort = Integer.parseInt(prop.getProperty(AZURECACHE_SERVER_PORT));
+                redisPassword = prop.getProperty(AZURECACHE_SERVER_PASSWORD);
                 instanceId = CloudUtil.getInstance().createDcInstanceId();
             } else {
                 redisServerHostMaster = prop.getProperty(REDIS_SERVER_HOST_MASTER);
@@ -145,18 +148,6 @@ public final class ServerProperties extends PropertyResolver {
         return redisServerPort;
     }
 
-    public int getMonitoringPort() {
-        return monitoringPort;
-    }
-
-    public int getHttpServerPort() {
-        return httpServerPort;
-    }
-
-    public int getTcpAcceptQueue() {
-        return tcpAcceptQueue;
-    }
-
     public String getKafkaPartition() {
         return kafkaPartition;
     }
@@ -169,23 +160,7 @@ public final class ServerProperties extends PropertyResolver {
         return kafkaTopic;
     }
 
-    public String getBackupFilePath() {
-        return backupFilePath;
-    }
-
-    public String getRedisUpdaterAddress() {
-        return redisUpdaterAddress;
-    }
-
-    public int getIpTruncationLevel() {
-        return ipTruncationLevel;
-    }
-
-    public boolean isIpResolutionEnabled() {
-        return useIpResolution;
-    }
-
-    public int getKafkaexportUnsentEventListSize() {
-        return kafkaexportUnsentEventListSize;
+    public String getRedisPassword() {
+        return redisPassword;
     }
 }

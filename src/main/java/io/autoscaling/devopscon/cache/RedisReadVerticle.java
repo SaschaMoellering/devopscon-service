@@ -13,6 +13,7 @@ import org.vertx.java.core.json.JsonArray;
 import org.vertx.java.core.json.JsonObject;
 import org.vertx.java.platform.Verticle;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisShardInfo;
 
 import java.util.List;
 
@@ -34,7 +35,14 @@ public class RedisReadVerticle extends Verticle {
     public void start() {
         eventBus = vertx.eventBus();
 
-        jedis = new Jedis(REDIS_SERVER_HOST_SLAVE, REDIS_SERVER_PORT);
+        if (ServerProperties.getInstance().getRedisPassword() == null) {
+            jedis = new Jedis(REDIS_SERVER_HOST_SLAVE, REDIS_SERVER_PORT);
+        } else {
+            JedisShardInfo shardInfo = new JedisShardInfo(REDIS_SERVER_HOST_SLAVE, REDIS_SERVER_PORT);
+            shardInfo.setPassword(ServerProperties.getInstance().getRedisPassword());
+
+            jedis = new Jedis(shardInfo);
+        }
         jedis.connect();
         eventBus.registerHandler(RedisReadVerticle.class.getSimpleName(), new TrackingDataHandler());
     }
